@@ -1,0 +1,44 @@
+#!/usr/bin/python2
+
+import sys, commands
+
+def c(x):
+    return commands.getstatusoutput(x)
+
+def yn():
+    while True:
+        x=raw_input()
+        if x=="y" or x=="Y": return True
+        if x=="n" or x=="N": return False
+
+def git_reset_head_hard():
+    print "You will lose changes to any of these files:"
+    c("git status --short -uno")
+    print "Are you sure?"
+    if(not yn()): return
+    c("git reset HEAD --hard")
+
+
+pcommands = [ \
+        [ "hard reset to HEAD with losing any changes to any file modified", git_reset_head_hard], \
+        [ "do anything", git_reset_head_hard] \
+        ]
+
+for i in range(len(pcommands)):
+    pcommands[i].append(0)
+
+for arg in sys.argv:
+    arg=arg.lower()
+    for i in range(len(pcommands)):
+        if arg in pcommands[i][0].lower():
+            pcommands[i][2]+=1
+
+pcommands = filter(lambda x: x[2]>0, pcommands)
+pcommands = sorted(pcommands, key=lambda x: x[2], reverse=True)
+
+pmenu_input = "(" + "".join(["echo \""+str(i)+" | "+pcommands[i][0]+"\"; " for i in range(len(pcommands))]) +") | pmenu"
+which_one = c(pmenu_input)[1]
+which_one = which_one[:which_one.find(" | ")]
+pcommands[int(which_one)][1]()
+
+
