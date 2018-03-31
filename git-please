@@ -1,44 +1,49 @@
 #!/usr/bin/python2
 
-import sys, commands
+"""
+Copyright 2018 Retzler Andras <randras@sdr.hu>
 
-def c(x):
-    return commands.getstatusoutput(x)
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-def yn():
-    while True:
-        x=raw_input()
-        if x=="y" or x=="Y": return True
-        if x=="n" or x=="N": return False
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-def git_reset_head_hard():
-    print "You will lose changes to any of these files:"
-    c("git status --short -uno")
-    print "Are you sure?"
-    if(not yn()): return
-    c("git reset HEAD --hard")
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
 
+import sys, pyfzf
+
+fzf = pyfzf.FzfPrompt()
+
+params = sys.argv[1:]
+if sys.argv[0]=="git": params=params[1:] #works with both ./git-please and git please
 
 pcommands = [ \
-        [ "hard reset to HEAD with losing any changes to any file modified", git_reset_head_hard], \
-        [ "do anything", git_reset_head_hard] \
+        [ "undo all changes since last commit (and lose any changes to any file modified)", "git reset HEAD --hard"], \
+        [ "list any file modified", "git status --short -uno"], \
+        [ "show all remotes", "git remote -v"], \
+        [ "change the URL/path of an existing remote repository", "git remote set-url <remote> <url>"], \
+        [ "create new repository", "git init"], \
+        [ "clone repository to given directory", "git clone <url> <directory>"], \
+        [ "show files modified since the last commit", "git status"], \
+        [ "upload changes to server", "git push"], \
+        [ "checkout a single file without changing all the other files", "git checkout HEAD <name_of_file>", "https://stackoverflow.com/a/2466755/3182453"], \
+        [ "see/find/list the commits from all branches", "git log --graph --decorate --all"], \
+        [ "see/find/list the commits in a tree view", "git log --graph --decorate"], \
+        [ "see/find/list the commits from the current branch only", "git log"], \
+        [ "change commit message of the last commit (without changing the contents of the last commit)", "git commit --amend"], \
+        [ "commit without opening up the text editor to edit commit message", "git commit -m \"your commit message\""], \
+        [ "undo changes to a single file since last commit", "git checkout -- file"], \
+        [ "undo last commit", """git reset HEAD~                             
+<< edit files as necessary >>               
+git add <any files you want to add>                                 
+git commit -c ORIG_HEAD""", "https://stackoverflow.com/a/927386/3182453"], \
         ]
 
-for i in range(len(pcommands)):
-    pcommands[i].append(0)
-
-for arg in sys.argv:
-    arg=arg.lower()
-    for i in range(len(pcommands)):
-        if arg in pcommands[i][0].lower():
-            pcommands[i][2]+=1
-
-pcommands = filter(lambda x: x[2]>0, pcommands)
-pcommands = sorted(pcommands, key=lambda x: x[2], reverse=True)
-
-pmenu_input = "(" + "".join(["echo \""+str(i)+" | "+pcommands[i][0]+"\"; " for i in range(len(pcommands))]) +") | pmenu"
-which_one = c(pmenu_input)[1]
-which_one = which_one[:which_one.find(" | ")]
-pcommands[int(which_one)][1]()
-
-
+lcommands = map(lambda x: x[0], pcommands)
+# result = fzf.prompt(lcommands, "--query=\""+("\\ ".join(params))+"\"")
+result = fzf.prompt(lcommands, "--query=\""+" ".join(params)+"\"")
+for c in pcommands:
+    if c[0] == result[0]:
+        print "\x1B[34m"+c[0]+"\x1B[39m"
+        print c[1]
+        break 
