@@ -18,14 +18,20 @@ params = sys.argv[1:]
 if sys.argv[0]=="git": params=params[1:] #works with both ./git-please and git please
 
 pcommands = [ \
-        [ "undo all changes since last commit (and lose any changes to any file modified)", "git reset HEAD --hard"], \
-        [ "list any file modified", "git status --short -uno"], \
+        [ "make git ignore some files (like temporary files)", "nano .gitignore #in the root of the git repository"], \
+        [ "show the diff between the last two commits", "git diff HEAD^ HEAD"], \
+        [ "show the diff of what changed since the last commit", "git diff"], \
+        [ "show the diff of what has been added to the staging area with git add and the last commit", "git diff --cached"], \
+        [ "undo/reset/clear all changes since last commit (and lose any changes to any file modified)", "git reset HEAD --hard"], \
+        [ "git add all the files that were modified since last commit (but no new ones)", "git add -u"], \
+        [ "git add all the files that were modified since last commit and also commit them (without opening a text editor for the commit message)", "git commit -a -m \"<message>\""], \
+        [ "list any file modified since the last commit", "git status --short -uno"], \
         [ "show all remotes", "git remote -v"], \
         [ "change the URL/path of an existing remote repository", "git remote set-url <remote> <url>"], \
         [ "create new repository", "git init"], \
         [ "clone repository to given directory", "git clone <url> <directory>"], \
         [ "show files modified since the last commit", "git status"], \
-        [ "upload changes to server", "git push"], \
+        [ "send/upload/push commits to remote", "git push"], \
         [ "checkout a single file without changing all the other files", "git checkout HEAD <name_of_file>", "https://stackoverflow.com/a/2466755/3182453"], \
         [ "see/find/list the commits from all branches", "git log --graph --decorate --all"], \
         [ "see/find/list the commits in a tree view", "git log --graph --decorate"], \
@@ -33,6 +39,12 @@ pcommands = [ \
         [ "change commit message of the last commit (without changing the contents of the last commit)", "git commit --amend"], \
         [ "commit without opening up the text editor to edit commit message", "git commit -m \"your commit message\""], \
         [ "undo changes to a single file since last commit", "git checkout -- file"], \
+        [ "create new branch on your local machine and switch to this branch", "git checkout -b <new_branch>"], \
+        [ "push new branch to default remote (origin)", "git push origin <new_branch>"], \
+        [ "show all branches", "git branch -v"], \
+        [ "create new branch without checking it out (switching to it)", "git branch <new_branch>"], \
+        [ "push existing repo to GitHub/bitbucket", """git remote add origin <remote_repository_url>
+git push origin master""", "https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/"], \
         [ "undo last commit", """git reset HEAD~                             
 << edit files as necessary >>               
 git add <any files you want to add>                                 
