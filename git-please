@@ -42,6 +42,11 @@ pcommands = [ \
         [ "undo changes to a single file since last commit", "git checkout -- file"], \
         [ "create new branch on your local machine and switch to this branch", "git checkout -b <new_branch>"], \
         [ "push new branch to default remote (origin)", "git push origin <new_branch>"], \
+        [ "delete/remove untracked files", """git clean -n #dry run, show what will be deleted
+git clean -f #delete untracked files (except those that are ignored by .gitignore)
+git clean -f -d #delete untracked files and directories (except those that are ignored by .gitignore)
+git clean -f -X #delete only those untracked files that are ignored by .gitignore
+git clean -f -x #delete both ignored and not ignored untracked files"""] , \
         [ "show all branches", "git branch -v"], \
         [ "change remote URL between HTTPS and SSH", """#1. Open `.git/config` in text editor.
 #2. Change repo URLs using the hint below.
