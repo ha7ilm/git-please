@@ -28,7 +28,8 @@ pcommands = [ \
         [ "list any file modified since the last commit", "git status --short -uno"], \
         [ "show all remotes", "git remote -v"], \
         [ "change the URL/path of an existing remote repository", "git remote set-url <remote> <url>"], \
-        [ "create new repository", "git init"], \
+        [ "create/start/initialize new repository in the current directory", """git init
+#this will create a .git subdirectory inside the current directory"""], \
         [ "clone repository to given directory", "git clone <url> <directory>"], \
         [ "show files modified since the last commit", "git status"], \
         [ "send/upload/push commits to remote", "git push"], \
@@ -47,6 +48,7 @@ pcommands = [ \
 #HTTPS URL format: https://username@github.com/username/repo.git
 #SSH URL format: git@github.com:username/repo.git""" ], \
         [ "create new branch without checking it out (switching to it)", "git branch <new_branch>"], \
+        [ "quit git-please", ""], \
         [ "push existing repo to GitHub/bitbucket", """git remote add origin <remote_repository_url>
 git push origin master""", "https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/"], \
         [ "undo last commit", """git reset HEAD~                             
