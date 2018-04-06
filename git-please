@@ -42,6 +42,10 @@ pcommands = [ \
         [ "create new branch on your local machine and switch to this branch", "git checkout -b <new_branch>"], \
         [ "push new branch to default remote (origin)", "git push origin <new_branch>"], \
         [ "show all branches", "git branch -v"], \
+        [ "change remote URL between HTTPS and SSH", """#1. Open `.git/config` in text editor.
+#2. Change repo URLs using the hint below.
+#HTTPS URL format: https://username@github.com/username/repo.git
+#SSH URL format: git@github.com:username/repo.git""" ], \
         [ "create new branch without checking it out (switching to it)", "git branch <new_branch>"], \
         [ "push existing repo to GitHub/bitbucket", """git remote add origin <remote_repository_url>
 git push origin master""", "https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/"], \
