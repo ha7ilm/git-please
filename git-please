@@ -41,6 +41,8 @@ pcommands = [ \
         [ "commit without opening up the text editor to edit commit message", "git commit -m \"your commit message\""], \
         [ "undo changes to a single file since last commit", "git checkout -- file"], \
         [ "create new branch on your local machine and switch to this branch", "git checkout -b <new_branch>"], \
+        [ "pull from remote without checking out the latest revision (only fetch)", """#as of `git pull` is a shorthand for `git fetch` followed by `git merge FETCH_HEAD`, just do:
+git fetch""", "https://git-scm.com/docs/git-pull"], \
         [ "push new branch to default remote (origin)", "git push origin <new_branch>"], \
         [ "delete/remove untracked files", """git clean -n #dry run, show what will be deleted
 git clean -f #delete untracked files (except those that are ignored by .gitignore)
