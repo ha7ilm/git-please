@@ -55,6 +55,7 @@ git clean -f -x #delete both ignored and not ignored untracked files"""] , \
 #HTTPS URL format: https://username@github.com/username/repo.git
 #SSH URL format: git@github.com:username/repo.git""" ], \
         [ "create new branch without checking it out (switching to it)", "git branch <new_branch>"], \
+        [ "delete/remove file from repository without actually deleting it from the disk", "git rm --cached <file>"], \
         [ "quit git-please", ""], \
         [ "push existing repo to GitHub/bitbucket", """git remote add origin <remote_repository_url>
 git push origin master""", "https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/"], \
